@@ -7,7 +7,7 @@ const button = document.getElementById("makeSmoothie");
 const outputDiv = document.getElementById("output");
 
 button.addEventListener("click", function() {
-    makeSmoothieWithPromises();
+    makeSmoothieAsync();
 });
 
 // Helper function to display messages on the page
@@ -28,11 +28,6 @@ function wait(ms) {
 
 // Step 1: Get ingredients
 function getIngredients() {
-  // TODO:
-  // 1. Show message: "Gathering ingredients..."
-  // 2. Wait 2 seconds using wait()
-  // 3. Resolve with "Ingredients ready"
-
   return new Promise((resolve, reject) => {
     showMessage("Gathering ingredients...");
     wait(2000).then(() => resolve(showMessage("Ingredients ready")));
@@ -41,16 +36,11 @@ function getIngredients() {
 
 // Step 2: Blend smoothie
 function blendSmoothie() {
-  // TODO:
-  // 1. Show message: "Blending smoothie..."
-  // 2. Wait 3 seconds
-  // 3. Sometimes FAIL (see assignment instructions)
-  // 4. Otherwise resolve with "Smoothie blended"
   return new Promise((resolve, reject) => {
-    showMessage("Blending Smoothie...");
+    wait(500).then(() => showMessage("Blending Smoothie..."));
     wait(2000).then(() => {
       if ((Math.floor(Math.random() * 10) + 1) % 3 == 0){
-        reject(showMessage("Blender Broke :("));
+        reject("Blender Broke :(");
       } else {
         resolve(showMessage("Smoothie Blended"));
       }
@@ -60,13 +50,8 @@ function blendSmoothie() {
 
 // Step 3: Pour smoothie
 function pourSmoothie() {
-  // TODO:
-  // 1. Show message: "Pouring into cup..."
-  // 2. Wait 1 second
-  // 3. Resolve with "Smoothie is ready!"
-
   return new Promise((resolve, reject) => {
-    showMessage("Pouring into cup...");
+    wait(500).then(() => showMessage("Pouring into cup..."));
     wait(1000).then(() => resolve(showMessage("Smoothie is Ready!")));
   });
 }
@@ -82,8 +67,7 @@ function makeSmoothieWithPromises() {
   getIngredients()
      .then(blendSmoothie)
      .then(pourSmoothie)
-     .catch(error => showMessage("No smoothie for you!"))
-     .finally("Done");
+     .catch(error => showMessage(error))
 }
 
 /* =========================
@@ -92,19 +76,14 @@ function makeSmoothieWithPromises() {
 
 async function makeSmoothieAsync() {
   outputDiv.innerHTML = ""; // Clear previous messages
-
-  
     try {
-      console.log(await getIngredients());
-      await wait(500);
-      console.log(await blendSmoothie());
-      await wait(500);
-      console.log(await pourSmoothie());
-    } catch (e) {
-      console.log(e);
+      await getIngredients();
+      
+      await blendSmoothie();
+      
+      await pourSmoothie();
+      
+    } catch (error) {
+      showMessage(error);
     }
-
-  // TODO:
-  // Show final success message
-  // Catch and display any errors
 }
