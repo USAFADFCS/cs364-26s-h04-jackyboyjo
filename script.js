@@ -7,7 +7,7 @@ const button = document.getElementById("makeSmoothie");
 const outputDiv = document.getElementById("output");
 
 button.addEventListener("click", function() {
-    makeSmoothieAsync();
+    makeSmoothieWithPromises();
 });
 
 // Helper function to display messages on the page
@@ -79,11 +79,11 @@ function makeSmoothieWithPromises() {
   outputDiv.innerHTML = ""; // Clear previous messages
 
   // TODO: Chain the steps in order using .then()
-  // getIngredients()
-  //   .then(...)
-  //   .then(...)
-  //   .then(...)
-  //   .catch(...)
+  getIngredients()
+     .then(blendSmoothie)
+     .then(pourSmoothie)
+     .catch(error => showMessage("No smoothie for you!"))
+     .finally("Done");
 }
 
 /* =========================
