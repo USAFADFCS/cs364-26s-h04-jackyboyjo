@@ -7,7 +7,7 @@ const button = document.getElementById("makeSmoothie");
 const outputDiv = document.getElementById("output");
 
 button.addEventListener("click", function() {
-    makeSmoothieAsync();
+    makeSmoothieWithPromises();
 });
 
 // Helper function to display messages on the page
@@ -82,7 +82,7 @@ async function makeSmoothieAsync() {
       await blendSmoothie();
       
       await pourSmoothie();
-      
+
     } catch (error) {
       showMessage(error);
     }
